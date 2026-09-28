@@ -1,5 +1,23 @@
 # Кандидатогенерация для категории услуг
 
+## Установка и запуск
+
+1. Python 3.11+, зависимости:
+   ```bash
+   pip install -r requirements.txt
+   ```
+2. Положить `train.parquet`, `benchmark_queries.parquet`, `benchmark_items.parquet` в `dataset/`.
+3. Скачать модель для эмбеддингов:
+   ```bash
+   python -c "from huggingface_hub import snapshot_download; \
+   snapshot_download(repo_id='intfloat/multilingual-e5-large', local_dir='models/multilingual-e5-large')"
+   ```
+4. Запустить ноутбуки по порядку (каждый читает `dataset/`, пишет в `cache/`; повторный запуск с тем же кешем — быстрый):
+   - `candidate_generation.ipynb` — кандидатогенерация, Recall@k на валидации;
+   - `reranking.ipynb` — обучение реранкера, сохраняет `answer.csv` в корне репозитория.
+
+## Подход
+
 Кандидатогенерация происходит в два этапа:
 
 1. **Отбор кандидатов** (`candidate_generation.ipynb`) — быстрый, эвристический отбор до 500 кандидатов на запрос из полного корпуса. Цель этапа — высокий Recall@500 (почти все релевантные объявления должны попасть в пул), точный порядок внутри пула не важен.
@@ -10,6 +28,7 @@
 
 ```
 ├── README.md                  — этот файл
+├── requirements.txt           — зависимости (pip install -r requirements.txt)
 ├── feature_analysis.ipynb     — EDA: локация, категория, флаги, числовые признаки
 ├── candidate_generation.ipynb — кандидатогенерация + Recall@k на локальной валидации
 ├── reranking.ipynb            — обучение реранкера + answer.csv
