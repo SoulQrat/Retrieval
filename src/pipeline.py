@@ -1,6 +1,6 @@
 """Assembles a `CandidateGenerator` from a corpus and its precomputed embeddings.
 
-Both `notebook.ipynb` and `reranking.ipynb` need the same five scoring
+Both `candidate_generation.ipynb` and `reranking.ipynb` need the same five scoring
 indices built over (possibly different) item corpora; this module is the
 single place that wiring lives, so the notebooks cannot drift apart on how
 a `CandidateGenerator` is put together.
@@ -40,7 +40,7 @@ def build_indices(
             `item_latitude`, `item_longitude` and `item_microcat_id`.
         params_embeddings: `(len(items), hidden_size)` E5 "passage:"
             embeddings of `item_infm_params_text` (truncated — see
-            `notebook.ipynb` section 7).
+            `candidate_generation.ipynb` section 7).
         dense_embeddings: `(len(items), hidden_size)` E5 "passage:"
             embeddings of title + truncated description; also reused as
             each microcategory's centroid input.

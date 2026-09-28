@@ -16,28 +16,15 @@ present verbatim but its E5 embedding is close to the document's E5
 embedding: this is the embedding-based comparison the task asks for when
 matching structured `*_infm_params_text` fields, where the query and the
 item may use different wording for the same attribute (e.g. "уборка" vs
-"клининг").
-
-Note on granularity: an earlier version of this module compared individual
-query *tokens* against individual document *tokens* with E5 embeddings.
-Bare single-word E5 embeddings turned out to be poorly separated (cosine
-similarity between unrelated words sits in the same ~0.78-0.88 band as
-between synonyms — a well-known anisotropy issue for short inputs), so a
-single global threshold could not tell them apart. Comparing a query token
-against the *whole document embedding* instead (still short: item params
-text is truncated) reuses E5 closer to how it was trained and gave a
-clear, checkable margin in exploratory testing (see the notebook's
-threshold-calibration cell). `SemanticCoverageIndex` therefore matches
-query tokens against per-document embeddings, not per-vocabulary-token
-embeddings.
+"клининг"). The comparison is token-vs-whole-document-embedding (not
+token-vs-token): item params text is truncated, so the document embedding
+stays short enough for this to reuse E5 close to how it was trained; the
+threshold is calibrated empirically (see `candidate_generation.ipynb`).
 
 In the current pipeline (`src/candidate_generator.py`), `CoverageIndex` is
 used both for the `*_infm_params_text` fields (via `SemanticCoverageIndex`,
 task requirement 2) and, on its own, for the query/title-description signal
-(requirement 3) — a BM25 index was tried for the latter and consistently
-scored lower (Recall@50 0.479 vs. 0.509 for plain coverage on the same
-lemmatized tokens; see `notebook.ipynb`), likely because BM25's document-
-length penalty works against the more detailed, genuinely relevant listings.
+(requirement 3).
 """
 
 from __future__ import annotations

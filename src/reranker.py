@@ -1,6 +1,6 @@
 """A CatBoost `YetiRank` reranker: turns Recall@500 into Recall@50.
 
-Candidate generation (`notebook.ipynb`) already gets most relevant items
+Candidate generation (`candidate_generation.ipynb`) already gets most relevant items
 into its top 500 (Recall@500 ≈ 0.88 on local validation) — the ceiling on
 Recall@50 is set by how well those 500 are *ordered*, which is exactly what
 a learning-to-rank model optimizes for. `YetiRank` (CatBoost's default

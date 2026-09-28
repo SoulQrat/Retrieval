@@ -16,7 +16,7 @@ import pandas as pd
 
 # Query-side fields analyzed here; a superset of what the candidate
 # generator uses (adds nothing text-related — that's already covered in
-# notebook.ipynb).
+# candidate_generation.ipynb).
 QUERY_FEATURE_COLUMNS: List[str] = [
     "search_location_id",
     "search_is_delivery_search",
@@ -94,7 +94,7 @@ def load_item_features(data_dir: str) -> pd.DataFrame:
 def load_train_item_feature_lookup(data_dir: str) -> pd.DataFrame:
     """Reads item-side features from `train.parquet`, deduped by `item_id`.
 
-    `reranking.ipynb`'s local evaluation corpus (like `notebook.ipynb`'s)
+    `reranking.ipynb`'s local evaluation corpus (like `candidate_generation.ipynb`'s)
     adds a handful of items that are only in `train.parquet`, not
     `benchmark_items.parquet` (see `data_loading.build_local_eval_corpus`).
     This backfills their content features (rating, price, ...) from the
